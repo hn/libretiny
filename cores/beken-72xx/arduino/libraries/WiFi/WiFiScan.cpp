@@ -15,27 +15,20 @@ static void scanHandler(void *ctx, uint8_t param) {
 		return;
 	}
 
-	uint8_t apNum = 0;
 	ScanResult_adv result;
-	result.ApNum  = 0;
-	result.ApList = NULL;
 	if (wlan_sta_scan_result(&result)) {
 		LT_EM(WIFI, "Failed to get scan result");
 		goto end;
 	}
 	LT_IM(WIFI, "Found %d APs", result.ApNum);
 
-	apNum = cls->scanAlloc(result.ApNum);
-	if (0 == apNum) {
+	cls->scanAlloc(result.ApNum);
+	if (!scan->ap) {
 		LT_WM(WIFI, "scan->ap alloc failed");
 		goto end;
 	}
 
-	if (apNum < result.ApNum) {
-		LT_WM(WIFI, "alloc failed, only %d APs will be copied");
-	}
-
-	for (uint8_t i = 0; i < apNum; i++) {
+	for (uint8_t i = 0; i < result.ApNum; i++) {
 		scan->ap[i].ssid	= strdup(result.ApList[i].ssid);
 		scan->ap[i].auth	= securityTypeToAuthMode(result.ApList[i].security);
 		scan->ap[i].rssi	= result.ApList[i].ApPower;
@@ -53,9 +46,6 @@ end:
 		// running == false means it was discarded (timeout)
 		scan->running = false;
 		xSemaphoreGive(cDATA->scanSem);
-	}
-	if (result.ApList) {
-		free(result.ApList);
 	}
 	LT_HEAP_I();
 	return;
