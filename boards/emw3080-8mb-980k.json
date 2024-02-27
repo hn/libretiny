@@ -1,0 +1,28 @@
+{
+	"_base": [
+		"generic",
+		"realtek-ambz",
+		"realtek-ambz-8mb-980k",
+		"ic/rtl8710bn"
+	],
+	"build": {
+		"mcu": "rtl8710bn",
+		"variant": "emw3080-8mb-980k"
+	},
+	"name": "EMW3080 (8M/980k)",
+	"url": "https://docs.libretiny.eu/boards/emw3080-8mb-980k/",
+	"vendor": "Shanghai MXCHIP Information Technology Co., Ltd.",
+        "doc": {
+                "fccid": "P53-EMW3080",
+                "links": {
+                        "Vendor datasheet": "https://docs.mxchip.com/attach/zh/DS0122CN_EMW3080_V2.8.pdf",
+                        "Vendor product page": "http://www.mxchip.cc/wifi/EMW3080.html",
+                        "Vendor documentation": "https://docs.mxchip.com/en/"
+                },
+                "extra": [
+                        "## Information",
+                        "The EMW3080 is a RTL8710BN clone. There are several versions of the chip and you can find various, only loosely consistent data sheets about them on the Internet.",
+                        "This is a board definition for the EMW3080-E with 8 MiB of flash found in the Solis S3 WiFi stick. The MCU there is originally equipped with a bootloader that has a 980 KiB application partition size, which is small in relation to the total memory. However, the original application is only a second stage loader, which in turn loads the AliOS 3.0.0 operating system and thus uses the entire flash memory."
+                ]
+        }
+}
